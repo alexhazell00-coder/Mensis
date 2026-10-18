@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local MENSIS state (database, logs, and workspace)
+.mensis_data/
+mensis-data/
+
+# Editors / OS
+.DS_Store
+.idea/
+.vscode/

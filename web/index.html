@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#101312" />
+    <meta name="description" content="MENSIS is a local-first personal AI task workspace." />
+    <title>MENSIS — Personal operations</title>
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Main navigation">
+        <a class="brand" href="/" aria-label="MENSIS home">
+          <span class="brand-mark" aria-hidden="true"><span></span></span>
+          <span class="brand-wordmark">MENSIS<small>PERSONAL OPERATIONS</small></span>
+        </a>
+
+        <div class="nav-label">Workspace</div>
+        <nav class="primary-nav">
+          <button class="nav-link is-active" type="button" data-view="workspace">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h7v7H4zM14 4h6v4h-6zM14 11h6v9h-6zM4 14h7v6H4z" /></svg>
+            <span>Overview</span><span class="nav-indicator"></span>
+          </button>
+          <button class="nav-link" type="button" data-view="queue">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6h14M5 12h14M5 18h8" /><circle cx="3" cy="6" r=".7" /><circle cx="3" cy="12" r=".7" /><circle cx="3" cy="18" r=".7" /></svg>
+            <span>Task queue</span><span class="nav-count" id="nav-task-count">0</span>
+          </button>
+          <button class="nav-link" type="button" data-view="tools">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.2 6.1a4.2 4.2 0 0 0-5.6 5.6l-5.2 5.2a1.4 1.4 0 0 0 2 2l5.2-5.2a4.2 4.2 0 0 0 5.6-5.6l-2.5 2.5-2-2 2.5-2.5Z" /><path d="m17.5 14.5 2.2 2.2M16 16l2.2 2.2" /></svg>
+            <span>Tool registry</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <div class="side-divider"></div>
+          <div class="side-section-label">Runtime</div>
+          <div class="runtime-state">
+            <span class="state-dot" id="core-dot"></span>
+            <span><strong id="core-state">Connecting</strong><small>LOCAL CORE</small></span>
+            <span class="pulse-ring" aria-hidden="true"></span>
+          </div>
+          <div class="provider-mini">
+            <div class="provider-icon" aria-hidden="true">M</div>
+            <div class="provider-copy"><span>Inference</span><small id="provider-mini-state">No model connected</small></div>
+            <span class="tiny-dot" id="provider-dot"></span>
+          </div>
+          <div class="sidebar-foot"><span class="local-lock" aria-hidden="true">⌑</span> DATA STAYS ON THIS MACHINE</div>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div class="breadcrumb"><span class="breadcrumb-root">MENSIS</span><span class="breadcrumb-slash">/</span><span id="breadcrumb-current">Overview</span></div>
+          <div class="topbar-right">
+            <div class="local-pill"><span class="local-pill-dot"></span> SELF-HOSTED</div>
+            <div class="topbar-time" id="clock">--:--</div>
+            <button class="icon-button refresh-button" id="refresh-button" type="button" aria-label="Refresh task data" title="Refresh">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5" /><path d="M6.2 9a6.5 6.5 0 0 1 11-2L20 12M4 12l2.8 5a6.5 6.5 0 0 0 11-2" /></svg>
+            </button>
+          </div>
+        </header>
+
+        <div class="content-wrap">
+          <section class="page-heading">
+            <div class="heading-copy">
+              <div class="eyebrow"><span class="eyebrow-line"></span><span id="heading-eyebrow">PERSONAL TASK SPACE <span class="eyebrow-index">01 / 03</span></span></div>
+              <h1 id="page-title">Your work, <em>accounted for.</em></h1>
+              <p id="page-description">Delegate a task. Follow the evidence. Stay in control of what happens next.</p>
+            </div>
+            <div class="date-block"><span class="date-kicker">LOCAL SESSION</span><span class="date-value" id="date-label">—</span><span class="date-timezone">PRIVATE BY DEFAULT</span></div>
+          </section>
+
+          <section class="workspace-panel view-panel" id="workspace-view" aria-label="Workspace overview">
+            <div class="work-grid">
+              <div class="main-column">
+                <section class="composer-card" aria-labelledby="composer-title">
+                  <div class="composer-topline"><span class="section-index">01</span><span class="section-caption">NEW TASK</span><span class="read-only-tag"><span></span> READ-ONLY TOOLS</span></div>
+                  <div class="composer-title-row"><h2 id="composer-title">What needs doing?</h2><span class="input-counter" id="input-counter">0 / 2000</span></div>
+                  <form id="task-form">
+                    <label class="visually-hidden" for="task-input">Describe a task</label>
+                    <textarea id="task-input" name="request" maxlength="2000" rows="3" placeholder="Ask MENSIS to check system health, inspect workspace storage, or find a document…" required></textarea>
+                    <div class="composer-footer">
+                      <div class="composer-hint"><span class="keyboard-key">↵</span> <span>to submit</span><span class="hint-separator">·</span><span>Tasks persist across restarts</span></div>
+                      <button class="submit-button" id="submit-button" type="submit"><span>Queue task</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" /></svg></button>
+                    </div>
+                  </form>
+                  <div class="quick-actions" aria-label="Suggested tasks">
+                    <span class="quick-label">TRY</span>
+                    <button class="quick-action" data-prompt="Check system health" type="button">System health <span>↗</span></button>
+                    <button class="quick-action" data-prompt="Check workspace disk usage" type="button">Workspace storage <span>↗</span></button>
+                    <button class="quick-action" data-prompt="Search for " type="button">Find a file <span>↗</span></button>
+                  </div>
+                  <div class="form-message" id="form-message" role="status" aria-live="polite"></div>
+                </section>
+
+                <section class="metrics-row" aria-label="Task summary">
+                  <div class="metric-card"><div class="metric-heading"><span>In progress</span><span class="metric-glyph metric-glyph-live">◌</span></div><div class="metric-value" id="metric-active">—</div><div class="metric-foot">QUEUED OR RUNNING</div></div>
+                  <div class="metric-card"><div class="metric-heading"><span>Verified</span><span class="metric-glyph">✓</span></div><div class="metric-value" id="metric-verified">—</div><div class="metric-foot">TOOL EVIDENCE RECORDED</div></div>
+                  <div class="metric-card"><div class="metric-heading"><span>Needs attention</span><span class="metric-glyph metric-glyph-alert">!</span></div><div class="metric-value" id="metric-attention">—</div><div class="metric-foot">BLOCKED OR FAILED</div></div>
+                </section>
+
+                <section class="queue-section" id="queue-section" aria-labelledby="queue-title">
+                  <div class="section-header">
+                    <div><div class="section-label"><span class="section-index">02</span> EXECUTION LOG</div><h2 id="queue-title">Recent tasks</h2></div>
+                    <div class="queue-actions"><span class="live-label"><span class="live-dot"></span> LIVE</span><button class="text-button" id="view-all-button" type="button">View all <span>→</span></button></div>
+                  </div>
+                  <div class="task-list" id="task-list" aria-live="polite"><div class="loading-state"><span class="loading-spinner"></span> Loading task history…</div></div>
+                </section>
+              </div>
+
+              <aside class="detail-column">
+                <section class="inspector-card" aria-label="Selected task details">
+                  <div class="inspector-header"><div><div class="section-label">TASK INSPECTOR</div><span class="inspector-id" id="inspector-id">NO TASK SELECTED</span></div><button class="icon-button inspector-close" id="clear-selection" type="button" aria-label="Clear selected task" title="Clear selection">×</button></div>
+                  <div id="inspector-content" class="inspector-content"><div class="inspector-empty"><div class="empty-orbit" aria-hidden="true"><span></span></div><h3>Nothing in focus.</h3><p>Select a task to inspect its plan, activity, and recorded evidence.</p><div class="empty-rule"></div><span class="empty-footnote">NO HIDDEN OPERATIONS</span></div></div>
+                </section>
+                <section class="policy-card">
+                  <div class="policy-mark" aria-hidden="true"><span></span></div>
+                  <div class="policy-content"><div class="section-label">CURRENT BOUNDARY</div><h3>Read-only by design.</h3><p>MENSIS can inspect system basics and the configured workspace. It cannot modify files or services.</p><button class="policy-link" type="button" data-view="tools">Inspect available tools <span>→</span></button></div>
+                </section>
+                <section class="runtime-card">
+                  <div class="runtime-card-header"><span class="section-label">CORE STATUS</span><span class="health-indicator" id="health-indicator"><span></span> CHECKING</span></div>
+                  <div class="runtime-meta"><div><span>Workspace</span><strong id="workspace-name">—</strong></div><div><span>Registered tools</span><strong id="tool-count">—</strong></div><div><span>Local model</span><strong id="model-name">Not configured</strong></div></div>
+                  <div class="runtime-card-foot"><span class="tiny-shield">◇</span> NO TELEMETRY · NO CLOUD REQUIRED</div>
+                </section>
+              </aside>
+            </div>
+          </section>
+
+          <section class="queue-view view-panel is-hidden" id="queue-view" aria-label="Task queue">
+            <div class="full-view-header"><div><div class="section-label"><span class="section-index">02</span> PERSISTENT EXECUTION</div><h2>Task queue</h2><p>Every request has a status, an execution trail, and an honest outcome.</p></div><div class="filter-control"><label for="task-filter">SHOW</label><select id="task-filter"><option value="all">All tasks</option><option value="active">Active</option><option value="needs-attention">Needs attention</option><option value="completed">Completed</option></select></div></div>
+            <div class="queue-full-grid"><div class="task-list full-task-list" id="task-list-full" aria-live="polite"><div class="loading-state"><span class="loading-spinner"></span> Loading task history…</div></div><div class="queue-detail" id="queue-detail"><div class="inspector-empty"><div class="empty-orbit" aria-hidden="true"><span></span></div><h3>Choose a task.</h3><p>Activity and results will appear here.</p></div></div></div>
+          </section>
+
+          <section class="tools-view view-panel is-hidden" id="tools-view" aria-label="Tool registry">
+            <div class="full-view-header"><div><div class="section-label"><span class="section-index">03</span> CAPABILITY REGISTRY</div><h2>Tool registry</h2><p>Each capability declares its input contract and permission boundary.</p></div><div class="registry-count"><strong id="registry-count">—</strong><span>REGISTERED TOOLS</span></div></div>
+            <div class="tool-grid" id="tool-grid"><div class="loading-state"><span class="loading-spinner"></span> Reading tool contracts…</div></div>
+            <div class="registry-note"><span class="registry-note-mark">i</span><p>All tools in this first release are read-only. Tool output is stored with the task and is treated as data, never as authorization.</p></div>
+          </section>
+
+          <footer class="page-footer"><span>MENSiS <span class="footer-separator">/</span> LOCAL-FIRST ASSISTANCE</span><span>BUILT TO BE INSPECTED <span class="footer-separator">·</span> <span id="footer-clock">—</span></span></footer>
+        </div>
+      </main>
+    </div>
+    <script src="/static/app.js" defer></script>
+  </body>
+</html>
