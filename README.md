@@ -18,9 +18,13 @@
 
 Requires Python 3.11 or newer. No Node.js build step is needed.
 
+**Windows:** run `setup.bat` from Command Prompt, or `.\setup.bat` from PowerShell. The script creates `.venv`, installs the application dependencies, uses `%LOCALAPPDATA%\MENSIS` for data by default, and starts the server on `127.0.0.1:8000`. Press Ctrl+C to stop it. Existing `MENSIS_*` environment settings are preserved.
+
+**Linux/macOS:**
+
 ```bash
-python -m venv .venv
-source .venv/bin/activate       # Windows PowerShell: .\.venv\Scripts\Activate.ps1
+python3 -m venv .venv
+source .venv/bin/activate
 python -m pip install -r requirements.txt
 python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
